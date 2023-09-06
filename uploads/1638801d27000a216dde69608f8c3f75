@@ -1,0 +1,14 @@
+{
+    "request": [
+        {
+            "method": "POST",
+            "endpoint": "/scan",
+            "parameters": {"urls":["https://mynicholas.my.id/login.php#/"]}
+        },
+        {
+            "method": "POST",
+            "endpoint": "/scan",
+            "parameters": {"urls":["https://mynicholas.my.id/login.php#/"]}
+        }
+    ]
+}

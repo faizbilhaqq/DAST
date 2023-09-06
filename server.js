@@ -19,6 +19,7 @@ app.use(express.static('view'));
 
 // Controller
 const { uploadJSON } = require('./controller/jsonController');
+const { userLogin } = require('./controller/userController');
 
 app.post('/upload-json', upload.single('jsonFile'), uploadJSON);
 
