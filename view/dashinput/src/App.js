@@ -1,6 +1,7 @@
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { ChakraProvider } from '@chakra-ui/react'
 import Dash from './pages/dashboard';
+import Upload from './pages/uploadJSON';
 
 
 
@@ -14,6 +15,7 @@ function App() {
         
         <Routes>
         <Route path='/' element={<Dash/>}   />
+        <Route path='/uploadJSON' element={<Upload/>}   />
 
 
         </Routes>
