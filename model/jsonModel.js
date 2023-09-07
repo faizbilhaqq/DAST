@@ -3,7 +3,7 @@ const axios = require('axios');
 const cron = require('node-cron');
 const nodemailer = require('nodemailer');
 
-async function processJSONFile(filePath) {
+async function processJSONFile(filePath, email) {
     try {
         const jsonData = fs.readFileSync(filePath, 'utf8');
         const jsonObject = JSON.parse(jsonData);
@@ -14,7 +14,7 @@ async function processJSONFile(filePath) {
             try {
                 if (task.method === "POST") {
                     const response = await axios.post(process.env.BURP_API_URL + task.endpoint, task.parameters);
-                    checkScanningStatus(process.env.BURP_API_URL + task.endpoint + "/" + response.headers.location, response.headers.location);
+                    checkScanningStatus(process.env.BURP_API_URL + task.endpoint + "/" + response.headers.location, response.headers.location, email);
                     jsonStatus.status.push(response.status);
                     jsonResponse.response.push(response.data);
                 } else if (task.method === "GET") {
@@ -37,22 +37,22 @@ async function processJSONFile(filePath) {
     }
 }
 
-async function checkScanningStatus(url, taskId) {
+async function checkScanningStatus(url, taskId, email) {
     const cronSchedule = '*/1 * * * *';
 
-    const scheduledJob = cron.schedule(cronSchedule, () => makeApiCall(url, scheduledJob, taskId));
+    const scheduledJob = cron.schedule(cronSchedule, () => makeApiCall(url, scheduledJob, taskId, email));
 
     console.log('API for Task ' + taskId + ' call scheduled. Running every 1 minute.');
 }
 
-async function makeApiCall(url, scheduledJob, taskId) {
+async function makeApiCall(url, scheduledJob, taskId, email) {
     try {
         const response = await axios.get(url);
         console.log('API Response for Task ' + taskId +':', response.data.scan_status);
 
         if (response.data.scan_status === 'succeeded' || response.data.scan_status === 'failed') {
             console.log('Received "succeeded" or "failed" response. Stopping API for Task ' + taskId + ' calls.');
-            sendNotificationEmail(response.data, taskId);
+            sendNotificationEmail(response.data, taskId, email);
             scheduledJob.stop(); 
         }
 
@@ -61,17 +61,18 @@ async function makeApiCall(url, scheduledJob, taskId) {
     }
 }
 
-async function sendNotificationEmail(scanResults, taskId) {
+async function sendNotificationEmail(scanResults, taskId, email) {
     const url = 'https://api.brevo.com/v3/smtp/email';
 
     const headers = {
       'User-Agent': 'curl/7.77.0',
       'Accept': 'application/json',
-      'Api-Key': process.env.BREVO_API_KEY,
+      'Api-Key': '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',
       'Content-Type': 'application/json',
     };
     
-    console.log(scanResults);
+    console.log(email);
+    console.log(typeof(email));
     const scanResultsString = JSON.stringify(scanResults);
 
     const data = {
@@ -81,7 +82,7 @@ async function sendNotificationEmail(scanResults, taskId) {
       },
       to: [
         {
-          email: 'rhezaec@gmail.com',
+          email: email,
           name: 'Rheza Receiver',
         },
       ],

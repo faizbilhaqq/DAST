@@ -7,9 +7,10 @@ async function uploadJSON(req, res) {
     }
 
     const filePath = req.file.path;
+    const email = req.body.email;
 
     try {
-        const result = await processJSONFile(filePath);
+        const result = await processJSONFile(filePath, email);
         res.json({ message: 'JSON file uploaded and processed successfully.', ...result });
     } catch (error) {
         res.status(500).json({ error: error.message });
