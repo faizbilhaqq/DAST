@@ -7,9 +7,12 @@ if (process.env.NODE_ENV != "production") {
 const express = require("express");
 const multer = require('multer');
 const upload = multer({ dest: 'uploads/' }); // Destination folder for uploaded files
+const cors = require('cors'); 
 
 // create express app
 const app = express();
+
+app.use(cors());
 
 // To have app receiving Json request
 app.use(express.json());

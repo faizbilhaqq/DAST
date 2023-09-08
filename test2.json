@@ -1,8 +1,8 @@
 {
     "request": [
         {
-            "method": "PUT",
-            "endpoint": "/scan/12",
+            "method": "GET",
+            "endpoint": "/scan/44",
             "parameters": {}
         }
     ]

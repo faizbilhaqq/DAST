@@ -67,7 +67,7 @@ async function sendNotificationEmail(scanResults, taskId, email) {
     const headers = {
       'User-Agent': 'curl/7.77.0',
       'Accept': 'application/json',
-      'Api-Key': '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',
+      'Api-Key': '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',
       'Content-Type': 'application/json',
     };
     

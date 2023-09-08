@@ -1,0 +1,9 @@
+{
+    "request": [
+        {
+            "method": "POST",
+            "endpoint": "/scan",
+            "parameters": {"urls":["http://testphp.vulnweb.com/artists.php?artist=1"]}
+        }
+    ]
+}
