@@ -15,5 +15,14 @@
         <input type="email" name="email" id="email" placeholder="Your Email" required>
         <button type="submit">Upload</button>
     </form>
+
+    <form action="/upload-api-collection" method="POST" enctype="multipart/form-data">
+        <label for="jsonFile">Select a JSON File :</label>
+        <input type="file" name="jsonFile" id="jsonFile" accept=".json" required>
+
+        <label for="email">Email Address :</label>
+        <input type="email" name="email" id="email" placeholder="Your Email" required>
+        <button type="submit">Upload</button>
+    </form>
 </body>
 </html>

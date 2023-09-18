@@ -21,10 +21,11 @@ app.use(express.json());
 app.use(express.static('view'));
 
 // Controller
-const { uploadJSON } = require('./controller/jsonController');
+const { uploadJSON, uploadAPICollection } = require('./controller/jsonController');
 const { userLogin } = require('./controller/userController');
 
 app.post('/upload-json', upload.single('jsonFile'), uploadJSON);
+// app.post('/upload-api-collection', upload.single('jsonFile'), uploadAPICollection);
 
 // run server on port
 const port = process.env.PORT || 3000; // Default to port 3000

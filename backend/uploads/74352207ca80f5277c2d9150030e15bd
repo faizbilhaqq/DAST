@@ -3,8 +3,7 @@
         {
             "method": "POST",
             "endpoint": "/scan",
-            "parameters": {"urls":["http://mynicholas.my.id"]}
+            "parameters": {"urls":["http://testphp.vulnweb.com/artists.php?artist=1"]}
         }
     ]
 }
-

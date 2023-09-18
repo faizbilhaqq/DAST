@@ -67,13 +67,65 @@ async function sendNotificationEmail(scanResults, taskId, email) {
     const headers = {
       'User-Agent': 'curl/7.77.0',
       'Accept': 'application/json',
-      'Api-Key': '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',
+      'Api-Key': process.env.BREVO_API_KEY,
       'Content-Type': 'application/json',
     };
     
-    console.log(email);
-    console.log(typeof(email));
+    console.log(scanResults);
     const scanResultsString = JSON.stringify(scanResults);
+
+    const emailContent = `
+        <!DOCTYPE html>
+        <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Scan Results</title>
+            <style>
+                /* Add CSS styles here */
+                .container {
+                    max-width: 600px;
+                    margin: 0 auto;
+                    padding: 20px;
+                    border: 1px solid #ddd;
+                    border-radius: 5px;
+                }
+                h1 {
+                    color: #333;
+                }
+                dt {
+                    font-weight: bold;
+                    margin-top: 15px;
+                }
+                ul {
+                    list-style-type: none;
+                    padding: 0;
+                }
+                li {
+                    margin-bottom: 10px;
+                }
+                li strong {
+                    font-weight: bold;
+                }
+            </style>
+        </head>
+        <body>
+            <div class="container">
+                <h1>Scan Results</h1>
+                <p>Task id: ${taskId}</p>
+                <p>Scan Status: ${scanResults.scan_status}</p>
+            
+                <dl>
+                    <dt>Daftar Temuan</dt>
+                    <ul id="temuan-list">
+                        ${generateListItems(scanResults.issue_events)}
+                    </ul>
+                </dl>
+            </div>
+        </body>
+        </html>
+    `;
+
 
     const data = {
       sender: {
@@ -87,11 +139,8 @@ async function sendNotificationEmail(scanResults, taskId, email) {
         },
       ],
       subject: 'Burp Rest Scan Result',
-      htmlContent: `<html><head></head><body>
-      <p>Hello,</p>This is your burp rest scan result for task ${taskId}.</p>
-      <p>${scanResultsString}</p>
-      </body></html>`,
-    };
+      htmlContent: emailContent 
+    }
     
     axios.post(url, data, { headers })
       .then(response => {
@@ -102,6 +151,53 @@ async function sendNotificationEmail(scanResults, taskId, email) {
         console.error('Error:', error.message);
       });
 }
+
+function generateListItems(issueEvents) {
+    return issueEvents.map(item => `
+        <li>
+            <strong>Name:</strong> ${item.name}<br>
+            <strong>Description:</strong> ${item.issue_background}<br>
+            <strong>Severity:</strong> ${item.severity}<br>
+            <strong>Remediation:</strong> ${item.remediation_background}<br>
+            <strong>Affected Endpoint:</strong> ${item.origin} ${item.path}<br>
+        </li>
+    `).join('');
+}
+
+// async function processAPICollection(filePath, email) {
+//     try {
+//         const jsonData = fs.readFileSync(filePath, 'utf8');
+//         const jsonObject = JSON.parse(jsonData);
+
+//         let jsonRequest = {
+//             "request": [
+//                 {
+//                     "method": "POST",
+//                     "endpoint": "/scan",
+//                     "parameters": {"urls":[]}
+//                 }
+//             ]
+//         };
+
+//         const requestParsing = jsonObject.item.map(async (task) => {
+//             const itemParsing = task.item.map(async (endpoint) => {
+//                 try {
+//                     console.log(endpoint.name);
+//                     console.log(endpoint.request.url.raw);
+//                 } catch(error) {
+//                     console.log(endpoint.request);
+//                 }
+//                 //jsonRequest.request[0].parameters.urls.push(endpoint.request.url.raw);
+//             });
+//         });
+
+//         //console.log(jsonRequest);
+
+//     } catch (error) {
+//         console.log(error);
+//         throw new Error('Error reading or parsing JSON file.');
+//     }
+// }
 
 module.exports = {
     processJSONFile,

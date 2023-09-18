@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Scan Results</title>
 </head>
 <body>
     <div class="container">
@@ -12,20 +12,49 @@
         <p>Scan Status:</p>
     
         <dl>
-            <dt>Nama Temuan </dt>
+            <dt>Daftar Temuan </dt>
             <br>
-            <dd><li>Description:</li></dd>
-            <dd><li>Severity:</li></dd>
-            <dd><li>Remediation:</li></dd>
-            <dd><li>Affected Endpoint:</li></dd>
-
-
-
+            <ul id="temuan-list">
+                <!-- JavaScript will populate this list -->
+            </ul>
         </dl>
-
-
-
     </div>
-    
+
+    <script>
+        // Example array of objects (replace this with your actual data)
+        const daftarTemuan = [
+            {
+                description: "Issue 1",
+                severity: "High",
+                remediation: "Update software",
+                affectedEndpoint: "https://example.com/endpoint1"
+            },
+            {
+                description: "Issue 2",
+                severity: "Medium",
+                remediation: "Change configuration",
+                affectedEndpoint: "https://example.com/endpoint2"
+            },
+            // Add more objects as needed
+        ];
+
+        // Function to generate list items for each object
+        function generateListItems(data) {
+            const listItems = data.map(item => `
+                <li>
+                    <strong>Name:</strong> ${item.description}<br>
+                    <strong>Description:</strong> ${item.description}<br>
+                    <strong>Severity:</strong> ${item.severity}<br>
+                    <strong>Remediation:</strong> ${item.remediation}<br>
+                    <strong>Affected Endpoint:</strong> <a href="${item.affectedEndpoint}" target="_blank">${item.affectedEndpoint}</a>
+                </li>
+            `).join('');
+            return listItems;
+        }
+
+        // Populate the list with data
+        const temuanList = document.getElementById('temuan-list');
+        temuanList.innerHTML = generateListItems(daftarTemuan);
+    </script>
 </body>
 </html>
