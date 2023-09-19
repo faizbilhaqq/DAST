@@ -10,7 +10,13 @@
     
 }
 
-CheckCircleIcon{
-    width: 90px;
-}
+/* .container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+   
+} */
 
+.text{
+    display: block ;
+}
