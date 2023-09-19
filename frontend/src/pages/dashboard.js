@@ -67,31 +67,43 @@ const Dash = () => {
     };
 
     return (
-        <div className="content">
-            <div className="box">
-                <Text as='b' fontSize='2xl' >Dynamic Tester 🕵️‍♀️ </Text>
+        <div className="content2">
+            <div className="box2">
+                <div className="form2">
+                <Text fontSize='4xl' as='b' >Scan Here!</Text>
+                <br />
+                <Text fontSize='l'  >Put your Email and JSON file here to Scan</Text>
 
-                <form>
-                    <div className="textLabel">
-                        <Text as='b' fontSize='lg' >Email</Text>
-                        <Input type="email" placeholder='Enter Your Email Address' value={email} onChange={(e) => setEmail(e.target.value)} />
+                    <form action="">
+
+                    <div className="textLabel2">
+                    <Text as='b' fontSize='sm'  >Email</Text>
+                    <Input  type="email" placeholder='Enter Your Email Address' value={email} onChange={(e) => setEmail(e.target.value)}  />
                     </div>
 
-                    <div className="textLabel">
-                        <Text as='b' fontSize='lg' >JSON</Text>
-                        <Tabs>
-                            <TabPanels>
-                                <TabPanel pr="0px" pl="0px">
-                                    <input type="file" accept=".json" onChange={handleFileChange} />
-                                </TabPanel>
-                            </TabPanels>
-                        </Tabs>
+                    <div className="textLabel2">
+                    <Text as='b' fontSize='sm'  >
+                        JSON
+                    </Text>
+                    <input type="file" accept=".json" onChange={handleFileChange}  placeholder='JSON' height={130} /> 
+                    
+                    
+
+
                     </div>
 
-                    <Button onClick={handleSubmit} className="submitButton" colorScheme='teal' size='md'>
-                        Submit
+                    <Button  onClick={handleSubmit} className="button2" bg='black'  _hover={{ bg: '#999999' }} color="white" size='md'>
+                    Submit
                     </Button>
-                </form>
+
+
+                    </form>
+                </div>
+
+                <div className="sidePicture">
+                    <img src={telkomHQ2} alt="" />
+
+                </div>
             </div>
         </div>
     );
