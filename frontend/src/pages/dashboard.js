@@ -5,10 +5,12 @@ import { Textarea } from '@chakra-ui/react';
 import { Tabs, TabPanels, TabPanel } from '@chakra-ui/react';
 import { Button } from '@chakra-ui/react';
 import { useState } from 'react';
+import telkomHQ2 from "../assets/telkomHQ2.jpg"
 
 const Dash = () => {
     const [email, setEmail] = useState('');
     const [jsonData, setJsonData] = useState(null);
+    const [isActive, setisActive] = useState(true);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -52,6 +54,7 @@ const Dash = () => {
     const handleFileChange = (e) => {
         const file = e.target.files[0];
         if (file) {
+            setisActive(isActive => !isActive)
             const reader = new FileReader();
             reader.onload = (event) => {
                 try {
@@ -72,7 +75,7 @@ const Dash = () => {
                 <div className="form2">
                 <Text fontSize='4xl' as='b' >Scan Here!</Text>
                 <br />
-                <Text fontSize='l'  >Put your Email and JSON file here to Scan</Text>
+                <Text mb={5} fontSize='l'  >Put your Email and JSON file here to Scan</Text>
 
                     <form action="">
 
@@ -81,11 +84,12 @@ const Dash = () => {
                     <Input  type="email" placeholder='Enter Your Email Address' value={email} onChange={(e) => setEmail(e.target.value)}  />
                     </div>
 
-                    <div className="textLabel2">
+                    <div >
                     <Text as='b' fontSize='sm'  >
                         JSON
                     </Text>
-                    <input type="file" accept=".json" onChange={handleFileChange}  placeholder='JSON' height={130} /> 
+                    <br />
+                    <input type="file" className={isActive ? "hidden": "notHidden"} accept=".json" onChange={handleFileChange}  placeholder='JSON' height={130} /> 
                     
                     
 

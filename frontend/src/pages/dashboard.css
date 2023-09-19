@@ -33,7 +33,7 @@ img{
 
 .button2{
     width: 100%;
-    margin-top: 15px;
+    margin-top: 90px;
     
     
 }
@@ -49,8 +49,32 @@ img{
     border-width: 2px;
 }
 
-.textLabel2 Textarea{
-    border-color: #c4bebe;
-    border-width: 2px;
+input[type=file]::file-selector-button {
+    margin-right: 20px;
+    border: none;
+    background: black;
+    padding: 10px 20px;
+    border-radius: 10px;
+    color: #fff;
+    cursor: pointer;
+    transition: background .2s ease-in-out;
+
+  }
+  
+  input[type=file]::file-selector-button:hover {
+    background: #999999;
+  }
+
+  input[type=file]{
+    width: 100%;
+    /* display: hidden; */
+    
+  }
+
+.hidden{
+    color: rgba(0, 0, 0, 0)
 }
 
+.notHidden{
+    color: black;
+}
