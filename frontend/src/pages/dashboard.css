@@ -1,22 +1,56 @@
-.box{
-    height:618px;
-    width: 50%;
-    margin: 0 auto;
+.box2{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-    padding: 2% 2.5% ;
+    width: 800px;
+    height: 500px;
+    margin: auto;
+    margin-top: 50px;
+    border-radius: 15px;
+    padding: 20px
+
 }
 
-.textLabel{
-    margin-bottom:30px;
+.sidePicture{
+    border-radius: 15px;
+    overflow: hidden;
+
 }
 
-form{
-    margin-top: 20px;
+img{
+    object-fit: cover;
+    border-radius: 15px;
+    width: 100%;
+    height: 100%; 
+    
 }
 
-.submitButton{
-    margin-left: 250px ;
+.form2{
+    padding: 15px;
+    padding-right: 30px;
+
+}
+
+.button2{
+    width: 100%;
+    margin-top: 15px;
+    
+    
 }
 
 
+
+.textLabel2{
+    margin-bottom: 20px;
+}
+
+.textLabel2 input{
+    border-color: #c4bebe;
+    border-width: 2px;
+}
+
+.textLabel2 Textarea{
+    border-color: #c4bebe;
+    border-width: 2px;
+}
 
