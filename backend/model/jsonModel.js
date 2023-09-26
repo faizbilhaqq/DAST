@@ -83,45 +83,151 @@ async function sendNotificationEmail(scanResults, taskId, email) {
             <title>Scan Results</title>
             <style>
                 /* Add CSS styles here */
-                .container {
-                    max-width: 600px;
+                .scanResults{
+                    display: grid;
+                    grid-template-columns: 1fr 1fr;
+                }
+        
+                .container{
+                    text-align: center;
+                }
+        
+                .content{
+                    display: inline-block;
                     margin: 0 auto;
-                    padding: 20px;
-                    border: 1px solid #ddd;
-                    border-radius: 5px;
+                    
                 }
-                h1 {
-                    color: #333;
+        
+                .scanId{
+                    width: 200px;
+                    height: 100px;
+                    background-color:blue;
+                    border-radius: 10px;
+                    border-width: 3px;
+                    border-color: black;
+                    border-style:solid;
+                    display: block;
+        
                 }
-                dt {
+        
+                .scanStatus{
+                    width: 250px;
+                    height: 100px;
+                    background-color:rgb(18, 160, 5);
+                    border-radius: 10px;
+                    border-width: 3px;
+                    border-color: black;
+                    border-style:solid;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                }
+        
+                .scanId h1{
+                    color: white;
+                    display: block;
+                    margin-top: 7px;
+                    font-size: 50px;
+                   
+                }
+        
+                .scanId p{
+                    margin-top: 7px;
+                    margin-bottom: 0;
+                    color: white;
+                }
+        
+                .scanStatus h1{
+                    color: white;
+                   
+                }
+                th {
+        
+                    background-color:rgb(0, 153, 255);
+                    color: white;
+                  
+                    padding: 10px;
+                }
+                table{
+                    
+                    border-radius: 50px;
+                    border-color: black;
+                    border-collapse: collapse;
+                    border: none;
+                    
+                }
+        
+                td{
+                    text-align: left;
+                    padding: 10px;
+                    
+                }
+        
+                .right {
+                    text-align: center;
+                    background-color:#cecdcd;
                     font-weight: bold;
-                    margin-top: 15px;
+                    font-size: 20px;
                 }
-                ul {
-                    list-style-type: none;
-                    padding: 0;
+        
+                .left{
+                    color: rgb(1, 115, 168);
+                    font-size: 20px;
+                    background-color: #FFF3DA;
+        
                 }
-                li {
-                    margin-bottom: 10px;
+        
+                
+                table {
+                    width:70%;
+                    margin: auto;
+                    margin-top: 20px;
+        
+                    
                 }
-                li strong {
-                    font-weight: bold;
+        
+                table, tr, td, th {
+                    border: none;
                 }
             </style>
         </head>
         <body>
-            <div class="container">
-                <h1>Scan Results</h1>
-                <p>Task id: ${taskId}</p>
-                <p >Scan Status: ${scanResults.scan_status}</p>
-            
-                <dl>
-                    <dt>Daftar Temuan</dt>
-                    <ul id="temuan-list">
-                        ${generateListItems(scanResults.issue_events)}
-                    </ul>
-                </dl>
+    <div class="container">
+        <div class="content">
+            <h1>Scan Results</h1>
+            <div class="scanResults">
+                
+                <div class="scanId">
+                   <p style="font-size: 18px;" > <b>task id: </b> </p>
+                   /* Put dynamic data of task id here */
+                    <h1>50 </h1>
+                </div>
+                <div class="scanStatus">
+                    <h1>Succeded </h1>
+                </div>
             </div>
+
+
+            <table>
+                <caption>
+                    <h2 style="margin-bottom: 5px;" >Daftar temuan</h2>
+                </caption>
+                <tr>
+                    <th>Description</th>
+                    <th>Results</th>
+                </tr>
+                <tr>
+                    <td class="left" >Name<br> Description <br> Severity <br>Remediation  <br> Affected Point  </td>
+                    <td class="right" >ini hasil <br>ini hasil <br>ini hasil <br> ini hasil <br>ini hasil </td>
+                </tr>
+                <tr>
+                    <td class="left" >Name<br> Description <br> Severity <br>Remediation  <br> Affected Point  </td>
+                    <td class="right" >ini hasil <br>ini hasil <br>ini hasil <br> ini hasil <br>ini hasil </td>
+                </tr>
+            </table>
+        </div>
+
+    </div>
         </body>
         </html>
     `;
