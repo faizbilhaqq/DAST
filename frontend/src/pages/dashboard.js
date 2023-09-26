@@ -6,11 +6,15 @@ import { Tabs, TabPanels, TabPanel } from '@chakra-ui/react';
 import { Button } from '@chakra-ui/react';
 import { useState } from 'react';
 import telkomHQ2 from "../assets/telkomHQ2.jpg"
+import { useNavigate } from 'react-router-dom';
+
 
 const Dash = () => {
     const [email, setEmail] = useState('');
     const [jsonData, setJsonData] = useState(null);
     const [isActive, setisActive] = useState(true);
+    const [loading, setloading] = useState(false);
+    const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -38,14 +42,30 @@ const Dash = () => {
             });
 
             if (response.ok) {
+                navigate("/loading")
+                setTimeout(navigate('/uploadJSON'), 30000)
+                
+
+                
                 alert('JSON file and email sent successfully.');
+
                 // Clear the form after successful submission
                 setEmail('');
                 setJsonData(null);
+
+
+
+               
+
+
+
+
+
             } else {
                 alert('Failed to send JSON file and email.');
             }
         } catch (error) {
+            navigate("/errorPage")
             console.error('Error sending request:', error);
             alert('An error occurred while sending the request.');
         }

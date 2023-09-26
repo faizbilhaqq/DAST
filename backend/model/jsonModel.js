@@ -113,7 +113,7 @@ async function sendNotificationEmail(scanResults, taskId, email) {
             <div class="container">
                 <h1>Scan Results</h1>
                 <p>Task id: ${taskId}</p>
-                <p>Scan Status: ${scanResults.scan_status}</p>
+                <p >Scan Status: ${scanResults.scan_status}</p>
             
                 <dl>
                     <dt>Daftar Temuan</dt>
