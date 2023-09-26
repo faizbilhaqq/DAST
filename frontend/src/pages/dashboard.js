@@ -13,7 +13,6 @@ const Dash = () => {
     const [email, setEmail] = useState('');
     const [jsonData, setJsonData] = useState(null);
     const [isActive, setisActive] = useState(true);
-    const [loading, setloading] = useState(false);
     const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
