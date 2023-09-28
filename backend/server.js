@@ -20,10 +20,14 @@ app.use(express.json());
 // Serve static files
 app.use(express.static('view'));
 
+app.use(express.urlencoded({ extended: false }));
+
 // Controller
 const { uploadJSON } = require('./controller/jsonController');
+const { uploadURL } = require('./controller/urlController');
 
 app.post('/upload-json', upload.single('jsonFile'), uploadJSON);
+app.post('/upload-url', upload.single('urlFile'), uploadURL); 
 
 // run server on port
 const port = process.env.PORT || 3000; // Default to port 3000

@@ -6,6 +6,8 @@ async function uploadJSON(req, res) {
         return res.status(400).json({ error: 'No file uploaded.' });
     }
 
+    console.log(req.body);
+
     const filePath = req.file.path;
     const email = req.body.email;
 
