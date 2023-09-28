@@ -1,19 +1,28 @@
 // jsonController.js
 const { processJSONFile } = require('../model/jsonModel');
+const { processURL } = require('../model/urlModel');
 
 async function uploadJSON(req, res) {
+    let arg = null;
+    let isFile = true;
+
     if (!req.file) {
-        return res.status(400).json({ error: 'No file uploaded.' });
+        arg = req.body.URL;
+        isFile = false;
+    } else {
+        arg = req.file.path;
     }
 
-    console.log(req.body);
-
-    const filePath = req.file.path;
     const email = req.body.email;
 
     try {
-        const result = await processJSONFile(filePath, email);
-        res.json({ message: 'JSON file uploaded and processed successfully.', ...result });
+        if (isFile) {
+            const result = await processJSONFile(arg, email);
+            res.json({ message: 'JSON file uploaded and processed successfully.', ...result });
+        } else {
+            const result = await processURL(arg, email);
+            res.json({ message: 'URL uploaded and processed successfully.', ...result });            
+        }
     } catch (error) {
         res.status(500).json({ error: error.message });
     }

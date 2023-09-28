@@ -8,8 +8,10 @@ async function processURL(url, email) {
         const jsonStatus = { status: [] };
         const jsonResponse = { response: [] };
 
+        const stringWithoutQuotes = url.replace(/"/g, '');
+
         const urlValues = [];
-        urlValues.push(url);
+        urlValues.push(stringWithoutQuotes);
 
         let jsonRequest = {
             "method": "POST",
