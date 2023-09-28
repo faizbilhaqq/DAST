@@ -123,144 +123,71 @@ async function sendNotificationEmail(scanResults, taskId, email) {
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <title>Scan Results</title>
             <style>
-                /* Add CSS styles here */
-                .scanResults{
-                    display: grid;
-                    grid-template-columns: 1fr 1fr;
-                }
-        
-                .container{
-                    text-align: center;
-                }
-        
-                .content{
-                    display: inline-block;
-                    margin: 0 auto;
-                    
-                }
-        
-                .scanId{
-                    width: 200px;
-                    height: 100px;
-                    background-color:blue;
-                    border-radius: 10px;
-                    border-width: 3px;
-                    border-color: black;
-                    border-style:solid;
-                    display: block;
-        
-                }
-        
-                .scanStatus{
-                    width: 250px;
-                    height: 100px;
-                    background-color:rgb(18, 160, 5);
-                    border-radius: 10px;
-                    border-width: 3px;
-                    border-color: black;
-                    border-style:solid;
-                    display: flex;
-                    justify-content: center;
-                    align-items: center;
-                }
-        
-                .scanId h1{
-                    color: white;
-                    display: block;
-                    margin-top: 7px;
-                    font-size: 50px;
-                   
-                }
-        
-                .scanId p{
-                    margin-top: 7px;
-                    margin-bottom: 0;
-                    color: white;
-                }
-        
-                .scanStatus h1{
-                    color: white;
-                   
-                }
-                th {
-        
-                    background-color:rgb(0, 153, 255);
-                    color: white;
-                  
-                    padding: 10px;
-                }
-                table{
-                    
-                    border-radius: 50px;
-                    border-color: black;
-                    border-collapse: collapse;
-                    border: none;
-                    
-                }
-        
-                td{
-                    text-align: left;
-                    padding: 10px;
-                    
-                }
-        
-                .right {
-                    text-align: center;
-                    background-color:#cecdcd;
-                    font-weight: bold;
-                    font-size: 20px;
-                }
-        
-                .left{
-                    color: rgb(1, 115, 168);
-                    font-size: 20px;
-                    background-color: #FFF3DA;
-        
-                }
-        
-                
-                table {
-                    width:70%;
-                    margin: auto;
-                    margin-top: 20px;
-        
-                    
-                }
-        
-                table, tr, td, th {
-                    border: none;
-                }
+            body {
+                font-family: Arial, sans-serif;
+                background-color: #f2f2f2;
+                margin: 0;
+                padding: 0;
+            }
+            header {
+                background-color: #333;
+                color: white;
+                text-align: center;
+                padding: 20px 0;
+            }
+            h1 {
+                font-size: 24px;
+            }
+            .section {
+                background-color: #fff;
+                margin: 20px;
+                padding: 20px;
+                border-radius: 5px;
+                box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
+            }
+            .severity {
+                font-weight: bold;
+                color: #d9534f; /* Red for high severity */
+            }
+            .url {
+                color: #007bff;
+                text-decoration: none;
+            }
+            .url:hover {
+                text-decoration: underline;
+            }
+            .medium-severity {
+                color: #f0ad4e; /* Orange for medium severity */
+            }
+            .low-severity {
+                color: #5bc0de; /* Blue for low severity */
+            }
+            .high-severity-bg {
+                background-color: #f2dede; /* Light red background for high severity */
+            }
+            .medium-severity-bg {
+                background-color: #fcf8e3; /* Light yellow background for medium severity */
+            }
+            .low-severity-bg {
+                background-color: #d9edf7; /* Light blue background for low severity */
+            }
             </style>
         </head>
         <body>
-    <div class="container">
-        <div class="content">
-            <h1>Scan Results</h1>
-            <div class="scanResults">
-                
-                <div class="scanId">
-                   <p style="font-size: 18px;" > <b>task id: ${taskId}</b> </p>
-                   /* Put dynamic data of task id here */
-                    <h1>50 </h1>
-                </div>
-                <div class="scanStatus">
-                    <h1>${scanResults.scan_status}</h1>
-                </div>
-            </div>
+        <header>
+        <h1>Penetration Testing Report</h1>
+    </header>
 
-
-            <table>
-                <caption>
-                    <h2 style="margin-bottom: 5px;" >Daftar temuan</h2>
-                </caption>
-                <tr>
-                    <th>Description</th>
-                    <th>Results</th>
-                </tr>
-                ${listItems}
-            </table>
-        </div>
-
+    <div class="section low-severity-bg"  >
+        <h2>Issue 1: Vulnerability Description</h2>
+        <p class="severity">Severity: </p>
+        <p>Name: </p>
+        <p>Description: </p>
+        <p>Affected Point: </p>
+        <p>Remediation: </p>
+        <p>Affected URL: <a class="url" href="https://www.example.com/vulnerable-page">https://www.example.com/vulnerable-page</a></p>
+       
+        
     </div>
         </body>
         </html>

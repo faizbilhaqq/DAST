@@ -52,8 +52,8 @@ const Dash = () => {
             });
 
             if (response.ok) {
-                navigate("/loading")
-                await setTimeout(navigate('/uploadJSON'), 30000)
+                navigate("/uploadJSON")
+          
                 
 
                 
@@ -75,11 +75,17 @@ const Dash = () => {
             } else {
                 alert('Failed to send JSON file and email.');
                 console.log(response);
+                setEmail('');
+                setUrl('');
+                setJsonData(null);
             }
         } catch (error) {
             navigate("/errorPage")
             console.error('Error sending request:', error);
             alert('An error occurred while sending the request.');
+            setEmail('');
+            setUrl('');
+            setJsonData(null);
         }
     };
 
