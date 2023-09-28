@@ -3,6 +3,13 @@ const axios = require('axios');
 const cron = require('node-cron');
 const nodemailer = require('nodemailer');
 
+class InvalidURLsError extends Error {
+    constructor(message) {
+        super(message);
+        this.name = 'InvalidURLsError';
+    }
+}
+
 async function processJSONFile(filePath, email) {
     try {
         const jsonData = fs.readFileSync(filePath, 'utf8');
@@ -10,32 +17,66 @@ async function processJSONFile(filePath, email) {
         const jsonStatus = { status: [] };
         const jsonResponse = { response: [] };
 
-        const axiosRequests = jsonObject.request.map(async (task) => {
+        const urlValues = [];
+        findUrls(jsonObject, urlValues);
+
+        if (validateUrls(urlValues)) {
+            throw new InvalidURLsError('URLs starting with "{{url}}" found in the JSON data. Please fill with the correct host.');
+        }
+
+        let jsonRequest = {
+            "method": "POST",
+            "endpoint": "/scan",
+            "parameters": {"urls": urlValues} 
+        };
+
+        const axiosRequest = async () => {
             try {
-                if (task.method === "POST") {
-                    const response = await axios.post(process.env.BURP_API_URL + task.endpoint, task.parameters);
-                    checkScanningStatus(process.env.BURP_API_URL + task.endpoint + "/" + response.headers.location, response.headers.location, email);
-                    jsonStatus.status.push(response.status);
-                    jsonResponse.response.push(response.data);
-                } else if (task.method === "GET") {
-                    const response = await axios.get(process.env.BURP_API_URL + task.endpoint, task.parameters );
-                    jsonStatus.status.push(response.status);
-                    jsonResponse.response.push(response.data);
-                } else {
-                    throw new Error("Invalid request");
-                }
+                const response = await axios.post(process.env.BURP_API_URL + jsonRequest.endpoint, jsonRequest.parameters);
+                checkScanningStatus(process.env.BURP_API_URL + jsonRequest.endpoint + "/" + response.headers.location, response.headers.location, email);
+                jsonStatus.status.push(response.status);
+                jsonResponse.response.push(response.data);
             } catch (error) {
                 throw error;
             }
-        });
+        };
 
-        await Promise.all(axiosRequests);
+        await axiosRequest();
 
         return { status: jsonStatus, data: jsonResponse };
+
     } catch (error) {
-        throw new Error('Error reading or parsing the JSON file.');
+        if (error instanceof InvalidURLsError) {
+            throw error; 
+        } else {
+            throw new Error('Error reading or parsing JSON file.');
+        }
     }
 }
+
+function findUrls(obj, urlValues) {
+    for (const key in obj) {
+        if (obj.hasOwnProperty(key)) {
+            const value = obj[key];
+            if (key === "url") {
+                urlValues.push(value.raw);
+            } else if (typeof value === "object") {
+                findUrls(value, urlValues); 
+            }
+        }
+    }
+}
+
+function validateUrls(urlValues) {
+    for (const url of urlValues) {
+        if (!url.startsWith('{{url}}')) {
+            return false;
+        }
+    }
+
+    return true;
+}
+
 
 async function checkScanningStatus(url, taskId, email) {
     const cronSchedule = '*/1 * * * *';
@@ -71,8 +112,8 @@ async function sendNotificationEmail(scanResults, taskId, email) {
       'Content-Type': 'application/json',
     };
     
-    console.log(scanResults);
     const scanResultsString = JSON.stringify(scanResults);
+    const listItems = generateListItems(scanResults.issue_events);
 
     const emailContent = `
         <!DOCTYPE html>
@@ -198,12 +239,12 @@ async function sendNotificationEmail(scanResults, taskId, email) {
             <div class="scanResults">
                 
                 <div class="scanId">
-                   <p style="font-size: 18px;" > <b>task id: </b> </p>
+                   <p style="font-size: 18px;" > <b>task id: ${taskId}</b> </p>
                    /* Put dynamic data of task id here */
                     <h1>50 </h1>
                 </div>
                 <div class="scanStatus">
-                    <h1>Succeded </h1>
+                    <h1>${scanResults.scan_status}</h1>
                 </div>
             </div>
 
@@ -216,14 +257,7 @@ async function sendNotificationEmail(scanResults, taskId, email) {
                     <th>Description</th>
                     <th>Results</th>
                 </tr>
-                <tr>
-                    <td class="left" >Name<br> Description <br> Severity <br>Remediation  <br> Affected Point  </td>
-                    <td class="right" >ini hasil <br>ini hasil <br>ini hasil <br> ini hasil <br>ini hasil </td>
-                </tr>
-                <tr>
-                    <td class="left" >Name<br> Description <br> Severity <br>Remediation  <br> Affected Point  </td>
-                    <td class="right" >ini hasil <br>ini hasil <br>ini hasil <br> ini hasil <br>ini hasil </td>
-                </tr>
+                ${listItems}
             </table>
         </div>
 
@@ -260,50 +294,12 @@ async function sendNotificationEmail(scanResults, taskId, email) {
 
 function generateListItems(issueEvents) {
     return issueEvents.map(item => `
-        <li>
-            <strong>Name:</strong> ${item.name}<br>
-            <strong>Description:</strong> ${item.issue_background}<br>
-            <strong>Severity:</strong> ${item.severity}<br>
-            <strong>Remediation:</strong> ${item.remediation_background}<br>
-            <strong>Affected Endpoint:</strong> ${item.origin} ${item.path}<br>
-        </li>
+        <tr>
+            <td class="left" >Name<br> Description <br> Severity <br>Remediation  <br> Affected Point  </td>
+            <td class="right" >${item.issue.name} <br>${item.issue.issue_background} <br>${item.issue.severity} <br> ${item.issue.remediation_background} <br> ${item.issue.origin} ${item.issue.path} </td>
+        </tr>
     `).join('');
 }
-
-// async function processAPICollection(filePath, email) {
-//     try {
-//         const jsonData = fs.readFileSync(filePath, 'utf8');
-//         const jsonObject = JSON.parse(jsonData);
-
-//         let jsonRequest = {
-//             "request": [
-//                 {
-//                     "method": "POST",
-//                     "endpoint": "/scan",
-//                     "parameters": {"urls":[]}
-//                 }
-//             ]
-//         };
-
-//         const requestParsing = jsonObject.item.map(async (task) => {
-//             const itemParsing = task.item.map(async (endpoint) => {
-//                 try {
-//                     console.log(endpoint.name);
-//                     console.log(endpoint.request.url.raw);
-//                 } catch(error) {
-//                     console.log(endpoint.request);
-//                 }
-//                 //jsonRequest.request[0].parameters.urls.push(endpoint.request.url.raw);
-//             });
-//         });
-
-//         //console.log(jsonRequest);
-
-//     } catch (error) {
-//         console.log(error);
-//         throw new Error('Error reading or parsing JSON file.');
-//     }
-// }
 
 module.exports = {
     processJSONFile,
