@@ -1,9 +1,0 @@
-{
-    "request": [
-        {
-            "method": "POST",
-            "endpoint": "/scan",
-            "parameters": {"urls":["http://testphp.vulnweb.com/listproducts.php?cat=3"]}
-        }
-    ]
-}

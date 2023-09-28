@@ -74,6 +74,7 @@ const Dash = () => {
 
             } else {
                 alert('Failed to send JSON file and email.');
+                console.log(response);
             }
         } catch (error) {
             navigate("/errorPage")

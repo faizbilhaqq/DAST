@@ -1,10 +1,6 @@
 {
-    "request": [
-        {
-            "method": "POST",
-            "endpoint": "/scan",
-            "parameters": {"urls":["http://mynicholas.my.id"]}
-        }
-    ]
+    "url": {
+        "raw" : "http://mynicholas.my.id"
+    }
 }
 

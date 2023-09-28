@@ -3,26 +3,13 @@ const axios = require('axios');
 const cron = require('node-cron');
 const nodemailer = require('nodemailer');
 
-class InvalidURLsError extends Error {
-    constructor(message) {
-        super(message);
-        this.name = 'InvalidURLsError';
-    }
-}
-
-async function processJSONFile(filePath, email) {
+async function processURL(url, email) {
     try {
-        const jsonData = fs.readFileSync(filePath, 'utf8');
-        const jsonObject = JSON.parse(jsonData);
         const jsonStatus = { status: [] };
         const jsonResponse = { response: [] };
 
         const urlValues = [];
-        findUrls(jsonObject, urlValues);
-
-        if (validateUrls(urlValues)) {
-            throw new InvalidURLsError('URLs starting with "{{url}}" found in the JSON data. Please fill with the correct host.');
-        }
+        urlValues.push(url);
 
         let jsonRequest = {
             "method": "POST",
@@ -46,37 +33,9 @@ async function processJSONFile(filePath, email) {
         return { status: jsonStatus, data: jsonResponse };
 
     } catch (error) {
-        if (error instanceof InvalidURLsError) {
-            throw error; 
-        } else {
-            throw new Error('Error reading or parsing JSON file.');
-        }
+        throw new Error('Error reading URL.');
     }
 }
-
-function findUrls(obj, urlValues) {
-    for (const key in obj) {
-        if (obj.hasOwnProperty(key)) {
-            const value = obj[key];
-            if (key === "url") {
-                urlValues.push(value.raw);
-            } else if (typeof value === "object") {
-                findUrls(value, urlValues); 
-            }
-        }
-    }
-}
-
-function validateUrls(urlValues) {
-    for (const url of urlValues) {
-        if (!url.startsWith('{{url}}')) {
-            return false;
-        }
-    }
-
-    return true;
-}
-
 
 async function checkScanningStatus(url, taskId, email) {
     const cronSchedule = '*/1 * * * *';
@@ -302,5 +261,5 @@ function generateListItems(issueEvents) {
 }
 
 module.exports = {
-    processJSONFile,
+    processURL,
 };

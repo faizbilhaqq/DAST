@@ -16,12 +16,12 @@
         <button type="submit">Upload</button>
     </form>
 
-    <form action="/upload-api-collection" method="POST" enctype="multipart/form-data">
-        <label for="jsonFile">Select a JSON File :</label>
-        <input type="file" name="jsonFile" id="jsonFile" accept=".json" required>
-
-        <label for="email">Email Address :</label>
-        <input type="email" name="email" id="email" placeholder="Your Email" required>
+    <form action="/upload-url" method="POST" enctype="multipart/form-data">
+        <label for="emailURL">Email Address :</label>
+        <input type="email" name="emailURL" id="emailURL" placeholder="Your Email" required>
+    
+        <label for="url">URL :</label>
+        <input type="text" name="url" id="url" placeholder="URL to Scan" required>
         <button type="submit">Upload</button>
     </form>
 </body>
