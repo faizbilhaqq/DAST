@@ -33,7 +33,7 @@ img{
 
 .button2{
     width: 100%;
-    margin-top: 90px;
+    margin-top:60px;
     
     
 }
@@ -41,13 +41,18 @@ img{
 
 
 .textLabel2{
-    margin-bottom: 20px;
+    margin-bottom: 15px;
+    
 }
 
 .textLabel2 input{
     border-color: #c4bebe;
     border-width: 2px;
 }
+
+/* .tabpanel{
+    padding-top: 0px;
+} */
 
 input[type=file]::file-selector-button {
     margin-right: 20px;
